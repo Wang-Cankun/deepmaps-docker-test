@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  iris3api:
+    build: .
+    ports:
+      - '8001:8000'
+    volumes:
+      - .:/data
+      - logvolume01:/var/log
+    links:
+      - redis
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+volumes:
+  logvolume01: tmp
