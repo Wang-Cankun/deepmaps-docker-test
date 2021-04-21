@@ -21,7 +21,7 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.htm
 ```{bash}
 firewall-cmd --zone=public --add-port=2377/tcp --permanent
 firewall-cmd --zone=public --add-port=2946/tcp --permanent
-
+firewall-cmd --reload
 ```
 ## Python-api
 
@@ -43,6 +43,24 @@ docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-
 
 # Push
 docker push wangcankun100/deepmaps-python-api-base
+```
+
+### Client image
+
+```{bash, eval=FALSE}
+# Build
+docker build -f Python-client.Dockerfile -t wangcankun100/deepmaps-python-api-client .
+
+# Test
+docker run wangcankun100/deepmaps-python-api-client
+
+# Start Jupyter notebook
+docker run -p 5000:5000 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-client
+docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-client jupyter notebook --allow-root --ip 0.0.0.0
+docker run -p 5000:5000 --ipc=host wangcankun100/deepmaps-python-api-client
+
+# Push
+docker push wangcankun100/deepmaps-python-api-client
 ```
 
 ## R-api
