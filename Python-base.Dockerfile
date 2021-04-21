@@ -26,7 +26,7 @@ RUN conda update -y conda \
 	&& conda config --add channels conda-forge
 
 RUN conda install numpy numpy_groupies scipy matplotlib pandas seaborn scikit-learn notebook dash plotly black bokeh h5py click jupyter jupyterlab pytables \
-	&& pip install -U --no-cache-dir jupyterthemes jupyter_contrib_nbextensions python-igraph umap-learn numba Cython transformers pyreadr dill\
+	&& pip install -U --no-cache-dir jupyterthemes jupyter_contrib_nbextensions python-igraph umap-learn numba Cython transformers pyreadr dill redis\
 	&& jupyter notebook --generate-config \
 	&& jupyter lab clean
 

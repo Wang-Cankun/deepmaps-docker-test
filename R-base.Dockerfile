@@ -15,16 +15,14 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
 	libsasl2-dev \
 	libsqlite3-dev \
 	libssh2-1-dev \
-	unixodbc-dev \
-	&& rm -rf /var/lib/apt/lists/*
+	unixodbc-dev 
 
 # Found more libraries need to be installed during my debugging
 RUN apt-get -y --no-install-recommends install \
 	libbz2-dev \
 	liblzma-dev \
 	libsodium-dev \
-	libhiredis-dev \
-	&& rm -rf /var/lib/apt/lists/*
+	libhiredis-dev
 
 ###############
 # HTSlib 1.11.0#
@@ -48,7 +46,6 @@ RUN R -e 'BiocManager::install(c("JASPAR2020","GO.db","GenomicAlignments","ggbio
 RUN R -e 'BiocManager::install(c("EnsDb.Hsapiens.v86","EnsDb.Mmusculus.v79"))'
 
 # Install CRAN dependencies
-
 RUN install2.r --error --skipinstalled -r $CRAN \
 	Polychrome \
 	qs \
@@ -62,7 +59,6 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 	msigdbr 
 
 # Other CRAN dependencies found during check
-
 RUN install2.r --error --skipinstalled -r $CRAN \
 	rematch \
 	readr \
@@ -87,11 +83,12 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 	ggsci\
 	ggpubr \
 	spatstat \
-	rlist
+	rlist \
+	redux
 
 # Clean up installation
 RUN rm -rf /tmp/* 
-
+RUN rm -rf /var/lib/apt/lists/*
 
 # Add Tini
 ENV TINI_VERSION v0.19.0

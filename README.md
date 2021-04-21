@@ -32,39 +32,38 @@ This base image contains all necessary for the package. Including PyTorch, PyTor
 
 ```{bash, eval=FALSE}
 # Build
-docker build -f Python-base.Dockerfile -t wangcankun100/deepmaps-python-api-base .
+docker build -f Python-base.Dockerfile -t wangcankun100/deepmaps-python-base .
 
 # Test
-docker run wangcankun100/deepmaps-python-api-base
+docker run wangcankun100/deepmaps-python-base
 
 # Start Jupyter notebook
-docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-base
-docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-base jupyter notebook --allow-root --ip 0.0.0.0
+docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-base
+docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-base jupyter notebook --allow-root --ip 0.0.0.0
 
 # Push
-docker push wangcankun100/deepmaps-python-api-base
+docker push wangcankun100/deepmaps-python-base
 ```
 
 ### Client image
 
 ```{bash, eval=FALSE}
 # Build
-docker build -f Python-client.Dockerfile -t wangcankun100/deepmaps-python-api-client .
+docker build -f Python-client.Dockerfile -t wangcankun100/deepmaps-python-client .
 
 # Test
-docker run wangcankun100/deepmaps-python-api-client
+docker run wangcankun100/deepmaps-python-client
 
 # Start Jupyter notebook
-docker run -p 5000:5000 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-client
-docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-api-client jupyter notebook --allow-root --ip 0.0.0.0
-docker run -p 5000:5000 --ipc=host wangcankun100/deepmaps-python-api-client
+docker run -p 5000:5000 --gpus=all --ipc=host wangcankun100/deepmaps-python-client
+docker run -p 8888:8888 --gpus=all --ipc=host wangcankun100/deepmaps-python-client jupyter notebook --allow-root --ip 0.0.0.0
+docker run -p 5000:5000 --ipc=host wangcankun100/deepmaps-python-client
 
 # Push
-docker push wangcankun100/deepmaps-python-api-client
+docker push wangcankun100/deepmaps-python-client
 ```
 
 ## R-api
-### Docker build
 
 We split the package to 2 containers, as it can speed up the build and deployment time (40 min ->  5 min).
 
@@ -76,10 +75,10 @@ This base image contains all necessary for the package. Including plumber, Seura
 
 ```{bash, eval=FALSE}
 # Build
-docker build -f base.Dockerfile -t wangcankun100/deepmaps-api-base .
+docker build -f R-base.Dockerfile -t wangcankun100/deepmaps-r-base .
 
 # Test what packages are installed
-docker run wangcankun100/deepmaps-api-base
+docker run wangcankun100/deepmaps-r-base
 ```
 
 #### Client image
@@ -88,17 +87,17 @@ This client image builds upon the deepmaps-api-base image. It will only install 
 
 ```{bash, eval=FALSE}
 # Build
-docker build --no-cache -f client.Dockerfile -t wangcankun100/deepmaps-api-client .
-docker push wangcankun100/deepmaps-api-client
+docker build --no-cache -f R-client.Dockerfile -t wangcankun100/deepmaps-r-client .
+docker push wangcankun100/deepmaps-r-client
 
 # Deploy
-docker pull wangcankun100/deepmaps-api-client
-docker run -d -v /var/www/nodejs/data/:/data --name deepmaps-api-client -p 8000:8000 wangcankun100/deepmaps-api-client
-docker logs deepmaps-api-client
-docker restart deepmaps-api-client
+docker pull wangcankun100/deepmaps-r-client
+docker run -d -v /var/www/nodejs/data/:/data --name deepmaps-r-client -p 8000:8000 wangcankun100/deepmaps-r-client
+docker logs deepmaps-r-client
+docker restart deepmaps-r-client
 
 # Run
-docker run --rm -p 8000:8000 wangcankun100/deepmaps-api-client
-docker run -v /var/www/nodejs/data/:/data -p 8000:8000 wangcankun100/deepmaps-api-client
+docker run --rm -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run -v /var/www/nodejs/data/:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 
 ```

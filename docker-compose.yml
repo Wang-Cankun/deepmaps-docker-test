@@ -1,17 +1,8 @@
 version: '3.9'
 services:
-  iris3api:
-    build: .
+  web:
+    image: 'wangcankun100/deepmaps-python-api-client'
     ports:
-      - '8001:8000'
-    volumes:
-      - .:/data
-      - logvolume01:/var/log
-    links:
-      - redis
+      - '5000:5000'
   redis:
-    image: redis
-    ports:
-      - '6379:6379'
-volumes:
-  logvolume01: tmp
+    image: 'redis:alpine'

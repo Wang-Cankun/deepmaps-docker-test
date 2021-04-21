@@ -1,4 +1,4 @@
-FROM wangcankun100/deepmaps-api-base
+FROM wangcankun100/deepmaps-r-base
 LABEL maintainer="Cankun Wang <cankun.wang@osumc.edu>"
 
 WORKDIR /tmp
