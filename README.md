@@ -12,6 +12,20 @@ sudo systemctl restart docker
 # Follow the tutorial
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html
 
+sudo pkill -SIGHUP dockerd
+
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "runtimes": {
+    "nvidia": {
+      "path": "/usr/bin/nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  },
+  "default-runtime": "nvidia"
+}
+EOF
+
 ```
 
 ## Docker swarm
