@@ -1,5 +1,11 @@
 # DeepMAPS-docker
 
+## Prerequisite: allow docker connection on remote
+
+```{bash}
+docker run --restart unless-stopped -p 2375:2375 -v /var/run/docker.sock:/var/run/docker.sock jarkt/docker-remote-api
+```
+
 ## Prerequisite: nvidia-docker2
 
 NVIDIA Container Toolkit is needed to enable GPU device access within Docker containers:
@@ -37,12 +43,31 @@ firewall-cmd --zone=public --add-port=2377/tcp --permanent
 firewall-cmd --zone=public --add-port=2946/tcp --permanent
 firewall-cmd --reload
 ```
+
+1. Docker shared volume in multiple servers
+
+```{bash}
+docker run --rm -itd --name nfs \
+  --restart unless-stopped \
+  --privileged \
+  -v /scratch/deepmaps-data:/data \
+  -e SHARED_DIRECTORY=/data \
+  -p 2049:2049 \
+  itsthenetwork/nfs-server-alpine:latest
+
+firewall-cmd --zone=public --add-port=2049/tcp --permanent
+firewall-cmd --reload
+
+sudo mount -v 10.94.2.224:/ /var/www/nodejs/deepmaps-data
+
+docker run -d -it --name test2 --mount type=volume,volume-driver=vieux/sshfs,source=cluster-volume,target=/data,volume-opt=sshcmd='wan268@10.82.14.183:/var/www/nodejs/deepmaps-data',volume-opt=password='862naw' wangcankun100/deepmaps-python-base 
+
+```
 ## Python-api
 
 ### Base image
 
-This base image contains all necessary for the package. Including PyTorch, PyTorch Geometric, Velocity, Lisa2
-
+This base image contains all necessary dependencies for DeepMAPS. Including PyTorch (1.7.0, CUDA11, GPU version), PyTorch Geometric, Velocity, Lisa2, etc.
 
 ```{bash, eval=FALSE}
 # Build
