@@ -40,10 +40,10 @@ RUN wget --no-check-certificate https://github.com/samtools/htslib/archive/1.11.
 	cp -R * /usr/lib/
 
 # Install Bioconductor dependencies
-RUN R -e 'BiocManager::install(c("JASPAR2020","GO.db","GenomicAlignments","ggbio","biovizBase","fgsea", "ComplexHeatmap"))'
+RUN R -e 'BiocManager::install(c("GenomicAlignments", "ggbio", "biovizBase", "fgsea", "ComplexHeatmap", "karyoploteR", "MAGeCKFlute"))'
 
 # Install Bioconductor databases
-RUN R -e 'BiocManager::install(c("EnsDb.Hsapiens.v86","EnsDb.Mmusculus.v79"))'
+RUN R -e 'BiocManager::install(c("JASPAR2020", "GO.db", "EnsDb.Hsapiens.v86","EnsDb.Mmusculus.v79", "org.Hs.eg.db", "org.Mm.eg.db"))'
 
 # Install CRAN dependencies
 RUN install2.r --error --skipinstalled -r $CRAN \
@@ -56,10 +56,8 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 	Signac \ 
 	logger \
 	tictoc \
-	msigdbr 
-
-# Other CRAN dependencies found during check
-RUN install2.r --error --skipinstalled -r $CRAN \
+	msigdbr \
+	Gmisc \ 
 	rematch \
 	readr \
 	openxlsx \
@@ -84,7 +82,12 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 	ggpubr \
 	spatstat \
 	rlist \
-	redux
+	redux \
+	devtools
+
+RUN installGithub.r -d FALSE -u FALSE\
+	immunogenomics/presto \ 
+	liulab-dfci/MAESTRO
 
 # Clean up installation
 RUN rm -rf /tmp/* 
