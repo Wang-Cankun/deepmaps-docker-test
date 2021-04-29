@@ -118,6 +118,9 @@ docker build -f R-base.Dockerfile -t wangcankun100/deepmaps-r-base .
 
 # Test what packages are installed
 docker run wangcankun100/deepmaps-r-base
+
+# Push
+docker push wangcankun100/deepmaps-r-base
 ```
 
 #### Client image
@@ -131,7 +134,9 @@ docker push wangcankun100/deepmaps-r-client
 
 # Deploy
 docker pull wangcankun100/deepmaps-r-client
-docker run -d -v /var/www/nodejs/data/:/data --name deepmaps-r-client -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run -v /var/www/nodejs/deepmaps-data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run -d -v /var/www/nodejs/deepmaps-data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run -d -v /var/www/nodejs/deepmaps-data:/data --name deepmaps-r-client -p 8000:8000 wangcankun100/deepmaps-r-client
 docker logs deepmaps-r-client
 docker restart deepmaps-r-client
 
