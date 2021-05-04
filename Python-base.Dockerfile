@@ -45,6 +45,9 @@ RUN pip install -U --no-cache-dir \
 # LISA2
 RUN conda install -c liulab-dfci lisa2
 
+# socket-io must be v4.6
+RUN pip install -U --no-cache-dir python-socketio==4.6.1
+
 # Clean up
 RUN conda clean --all -f -y
 
