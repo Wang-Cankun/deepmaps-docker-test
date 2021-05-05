@@ -6,7 +6,7 @@ WORKDIR /tmp
 # Ubuntu dependency found at /rocker_scripts/install_tidyverse.sh
 RUN NCPUS=${NCPUS:-1}
 RUN set -e
-RUN apt-get update -qq && apt-get -y --no-install-recommends install \
+RUN apt-get -q  update && apt-get -y --no-install-recommends install \
 	libxml2-dev \
 	libcairo2-dev \
 	libgit2-dev \
@@ -15,7 +15,9 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
 	libsasl2-dev \
 	libsqlite3-dev \
 	libssh2-1-dev \
-	unixodbc-dev 
+	unixodbc-dev \
+	python \
+	python3-pip
 
 # Found more libraries need to be installed during my debugging
 RUN apt-get -y --no-install-recommends install \
@@ -88,6 +90,9 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 RUN installGithub.r -d FALSE -u FALSE\
 	immunogenomics/presto \ 
 	liulab-dfci/MAESTRO
+
+# Socket-io 
+RUN pip3 install python-socketio[client]==4.6.1
 
 # Clean up installation
 RUN rm -rf /tmp/* 

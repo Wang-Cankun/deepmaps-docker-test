@@ -59,10 +59,12 @@ firewall-cmd --zone=public --add-port=2049/tcp --permanent
 firewall-cmd --reload
 
 sudo mount -v 10.94.2.224:/ /var/www/nodejs/deepmaps-data
+sudo umount -l /var/www/nodejs/deepmaps-data
 
 docker run -d -it --name test2 --mount type=volume,volume-driver=vieux/sshfs,source=cluster-volume,target=/data,volume-opt=sshcmd='wan268@10.82.14.183:/var/www/nodejs/deepmaps-data',volume-opt=password='862naw' wangcankun100/deepmaps-python-base 
 
 ```
+
 ## Python-api
 
 ### Base image
@@ -108,7 +110,7 @@ We split the package to 2 containers, as it can speed up the build and deploymen
 
 To build the docker image, enter project root directory first.
 
-#### Base image
+### Base image
 
 This base image contains all necessary for the package. Including plumber, Seurat, Signac, tidyverse, BioConductor suite (GenomicRanges, SingleCellExperiment, etc.)
 
@@ -123,7 +125,7 @@ docker run wangcankun100/deepmaps-r-base
 docker push wangcankun100/deepmaps-r-base
 ```
 
-#### Client image
+### Client image
 
 This client image builds upon the deepmaps-api-base image. It will only install the R package itself.
 
@@ -137,11 +139,13 @@ docker pull wangcankun100/deepmaps-r-client
 docker run -v /var/www/nodejs/deepmaps-data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 docker run -d -v /var/www/nodejs/deepmaps-data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 docker run -d -v /var/www/nodejs/deepmaps-data:/data --name deepmaps-r-client -p 8000:8000 wangcankun100/deepmaps-r-client
+
+# manage
 docker logs deepmaps-r-client
 docker restart deepmaps-r-client
 
 # Run
 docker run --rm -p 8000:8000 wangcankun100/deepmaps-r-client
-docker run -v /var/www/nodejs/data/:/data -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run --network="host" -v /var/www/nodejs/data/:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 
 ```
