@@ -10,7 +10,7 @@ ADD https://raw.githubusercontent.com/Wang-Cankun/rDeepMAPS/master/app.R /app.R
 # Install package, skip dependency and suggested packages
 
 RUN installGithub.r -d FALSE -u FALSE\
-	Wang-Cankun/iris3api@master
+	Wang-Cankun/rDeepMAPS@master
 
 # Clean up installation
 RUN rm -rf /tmp/* 
