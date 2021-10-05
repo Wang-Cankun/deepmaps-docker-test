@@ -85,11 +85,19 @@ RUN install2.r --error --skipinstalled -r $CRAN \
 	spatstat \
 	rlist \
 	redux \
-	devtools
+	devtools \
+	enrichR \
+	NMF \
+	ggalluvial  \
+	svglite \
+	expm \
+	sna \
+	gg.gap
 
 RUN installGithub.r -d FALSE -u FALSE\
 	immunogenomics/presto \ 
-	liulab-dfci/MAESTRO
+	liulab-dfci/MAESTRO \
+	sqjin/CellChat 
 
 # Socket-io 
 RUN pip3 install python-socketio[client]==4.6.1
