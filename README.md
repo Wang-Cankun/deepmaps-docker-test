@@ -144,6 +144,7 @@ docker restart deepmaps-r-client
 # Run
 docker run -dv /var/www/nodejs/deepmaps-data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 docker run -dv /home/wan268/deepmaps/data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
+docker run -dv /scratch/deepmaps/data:/data -p 8000:8000 wangcankun100/deepmaps-r-client
 
 ```
 
